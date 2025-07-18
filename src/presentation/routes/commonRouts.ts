@@ -1,12 +1,20 @@
 import { Router } from "express";
 import { DIContainer } from "../../infrastructure/di/DIContainer";
-import { FetchDataFromS3Controller } from "../controllers/common/fetchDataFromS3.controller";
+import { FetchNotificationsController } from "../controllers/common/fetchNotifications.controller";
+import { validateReqBody, validateReqQueryParams } from "@buxlo/common";
+import { fetchNotificationsDto } from "../../zodSchemaDto/common/fetchnotifications.dto";
+import { CreateNotificationController } from "../controllers/common/createNotification.controller";
+import { createNotificationDto } from "../../zodSchemaDto/common/createnotification.dto";
+import { ReadNotificationController } from "../controllers/common/readNotification.controller";
+import { readnotificationsDto } from "../../zodSchemaDto/common/readnotifications.dto";
 
 export class CommonRouts {
   private router: Router;
   private diContainer: DIContainer;
 
-  private fetchDataFromS3Controller!: FetchDataFromS3Controller;
+  private fetchNotificationsController!: FetchNotificationsController;
+  private createNotificationController!: CreateNotificationController;
+  private readNotificationController!: ReadNotificationController;
 
   constructor() {
     this.router = Router();
@@ -16,13 +24,33 @@ export class CommonRouts {
   }
 
   private initializeControllers(): void {
-    this.fetchDataFromS3Controller = new FetchDataFromS3Controller(
-      this.diContainer.fetchDataFromS3UseCase()
+    this.fetchNotificationsController = new FetchNotificationsController(
+      this.diContainer.fetchNotificationsUseCase()
+    );
+    this.createNotificationController = new CreateNotificationController(
+      this.diContainer.createNotificationUseCase()
+    );
+    this.readNotificationController = new ReadNotificationController(
+      this.diContainer.readNotificationUseCase()
     );
   }
 
   private initializeRoutes(): void {
-    this.router.post("/fetchmessagefroms3", this.fetchDataFromS3Controller.get);
+    this.router.post(
+      "/createnotification",
+      validateReqBody(createNotificationDto),
+      this.createNotificationController.create
+    );
+    this.router.get(
+      "/fetchnotifications",
+      validateReqQueryParams(fetchNotificationsDto),
+      this.fetchNotificationsController.get
+    );
+    this.router.patch(
+      "/readnotifications",
+      validateReqBody(readnotificationsDto),
+      this.readNotificationController.read
+    );
   }
 
   public getRouter(): Router {
