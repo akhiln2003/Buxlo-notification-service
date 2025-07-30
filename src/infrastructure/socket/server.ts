@@ -25,14 +25,6 @@ export class SocketServer {
     console.log(`User disconnected: ${socket.id}`);
   }
 
-  private handleStatus(socket: Socket, data: any): void {
-    console.log("Received status:", data);
-
-    const { userId, receiverId } = data;
-
-    socket.to(`${userId}${receiverId}`).emit("status", data);
-  }
-
   private handleDirectNotification(socket: Socket, data: any): void {
     if (!data.receiverId) {
       console.error("Direct message missing receiverId");
@@ -43,9 +35,9 @@ export class SocketServer {
 
     if (this.online.has(receiverId)) {
       const socketId = this.online.get(receiverId);
-     
+
       this.io.to(socketId!).emit("direct_notification", notification);
-       console.log(
+      console.log(
         `User ${receiverId} is offline, sending notification to socket ID: ${socketId}`
       );
     }
@@ -54,21 +46,23 @@ export class SocketServer {
   private handleJoin(socket: Socket, userId: string): void {
     this.online.set(userId, socket.id);
     console.log(`User ${userId} joined with socket ID: ${socket.id}`);
-   
+
     console.log("Online users:");
     for (const [userId, socketId] of this.online.entries()) {
       console.log(`- ${userId}: ${socketId}`);
     }
   }
 
-  // private handleOnline(socket: Socket, userId: string): void {
-  //   this.online.add(userId);
-  //   this.io.emit("online", { userId });
-  //   console.log(`User ${userId} is online with socket ID: ${socket.id}`);
-  // }
+  private handleMarkAllRead(socket: Socket, data: { userId: string }): void {
+    const { userId } = data;
 
-  private handleActiveUser(socket: Socket): void {
-    socket.emit("active_user", Array.from(this.online));
+    const receiverSocketId = this.online.get(userId);
+    if (receiverSocketId) {
+      this.io.to(receiverSocketId).emit("mark_all_read", { userId });
+      console.log(`Emitted 'mark_all_read' to socket: ${receiverSocketId}`);
+    } else {
+      console.log(`User ${userId} not online; cannot emit 'mark_all_read'`);
+    }
   }
 
   private handileLeave(socket: Socket, userId: string): void {
@@ -79,19 +73,15 @@ export class SocketServer {
   }
 
   private setupSocketListeners(socket: Socket): void {
-    // socket.on("status", (data) => this.handleStatus(socket, data));
     socket.on("join", ({ userId }: { userId: string }) => {
       console.log(`User ${userId} joined with socket ID: ${socket.id}`);
       return this.handleJoin(socket, userId);
     });
-
     socket.on("direct_notification", (data) =>
       this.handleDirectNotification(socket, data)
     );
-
-    // socket.on("active_user", () => this.handleActiveUser(socket));
+    socket.on("mark_all_read", (data) => this.handleMarkAllRead(socket, data));
     socket.on("leave", (userId: string) => this.handileLeave(socket, userId));
-    // socket.on("online", (userId: string) => this.handleOnline(socket, userId));
     socket.on("disconnect", () => this.handleDisconnect(socket));
   }
   private setupListeners(): void {

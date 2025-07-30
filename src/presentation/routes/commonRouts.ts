@@ -7,6 +7,8 @@ import { CreateNotificationController } from "../controllers/common/createNotifi
 import { createNotificationDto } from "../../zodSchemaDto/common/createnotification.dto";
 import { ReadNotificationController } from "../controllers/common/readNotification.controller";
 import { readnotificationsDto } from "../../zodSchemaDto/common/readnotifications.dto";
+import { deleteNotificationsDto } from "../../zodSchemaDto/common/deleteNotification.dto.";
+import { DeleteNotificationController } from "../controllers/common/deleteNotification.controller";
 
 export class CommonRouts {
   private router: Router;
@@ -15,6 +17,7 @@ export class CommonRouts {
   private fetchNotificationsController!: FetchNotificationsController;
   private createNotificationController!: CreateNotificationController;
   private readNotificationController!: ReadNotificationController;
+  private deleteNotificationControler!: DeleteNotificationController;
 
   constructor() {
     this.router = Router();
@@ -33,6 +36,9 @@ export class CommonRouts {
     this.readNotificationController = new ReadNotificationController(
       this.diContainer.readNotificationUseCase()
     );
+    this.deleteNotificationControler = new DeleteNotificationController(
+      this.diContainer.deleteNotificationUseCase()
+    );
   }
 
   private initializeRoutes(): void {
@@ -50,6 +56,11 @@ export class CommonRouts {
       "/readnotifications",
       validateReqBody(readnotificationsDto),
       this.readNotificationController.read
+    );
+    this.router.delete(
+      "/deletenotifications",
+      validateReqBody(deleteNotificationsDto),
+      this.deleteNotificationControler.delete
     );
   }
 

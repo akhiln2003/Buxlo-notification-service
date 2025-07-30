@@ -1,8 +1,10 @@
 import { IcreateNotificationUseCase } from "../../application/interface/common/IcreateNotificationUseCase";
+import { IdeleteNotificationUseCase } from "../../application/interface/common/IdeleteNotificationUseCase";
 import { IfetchDataFromS3UseCase } from "../../application/interface/common/IfetchDataFromS3UseCase";
 import { IfetchNotificationsUseCase } from "../../application/interface/common/IfetchNotificationsUseCase";
 import { IreadNotificationUseCase } from "../../application/interface/common/IreadNotificationUseCase";
 import { CreateNotificationUseCase } from "../../application/usecase/common/createNotification.useCase";
+import { DeleteNotificationUseCase } from "../../application/usecase/common/deleteNotification.useCase";
 import { FetchDataFromS3UseCase } from "../../application/usecase/common/fetchDataFromS3.UseCase";
 import { FetchNotificationsUseCase } from "../../application/usecase/common/fetchNotifications.UseCase";
 import { ReadNotificationUseCase } from "../../application/usecase/common/readNotification.useCase";
@@ -30,7 +32,10 @@ export class DIContainer {
   fetchNotificationsUseCase(): IfetchNotificationsUseCase {
     return new FetchNotificationsUseCase(this._notificationRepo);
   }
-  readNotificationUseCase():IreadNotificationUseCase{
+  readNotificationUseCase(): IreadNotificationUseCase {
     return new ReadNotificationUseCase(this._notificationRepo);
+  }
+  deleteNotificationUseCase(): IdeleteNotificationUseCase {
+    return new DeleteNotificationUseCase(this._notificationRepo);
   }
 }
