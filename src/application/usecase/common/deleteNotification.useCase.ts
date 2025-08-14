@@ -3,11 +3,11 @@ import { IdeleteNotificationUseCase } from "../../interface/common/IdeleteNotifi
 import { InotificationRepository } from "../../../infrastructure/@types/InotificationRepository";
 
 export class DeleteNotificationUseCase implements IdeleteNotificationUseCase {
-  constructor(private notificationRepo: InotificationRepository) {}
+  constructor(private _notificationRepo: InotificationRepository) {}
   async execute(ids: string[]): Promise<string> {
     try {
         await Promise.all(
-        ids.map((id) => this.notificationRepo.delete(id))
+        ids.map((id) => this._notificationRepo.delete(id))
       );
       return "Deleted Notifications";
     } catch (error) {

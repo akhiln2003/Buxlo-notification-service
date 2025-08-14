@@ -4,15 +4,15 @@ import { InotificationRepository } from "../../../infrastructure/@types/Inotific
 import { IfetchNotificationsUseCase } from "../../interface/common/IfetchNotificationsUseCase";
 
 export class FetchNotificationsUseCase implements IfetchNotificationsUseCase {
-  constructor(private notificationRepository: InotificationRepository) {}
+  constructor(private _notificationRepository: InotificationRepository) {}
   async execute(
     userId: string,
     page: number,
     status: "unread" | "all",
     searchData?: string
-  ): Promise<{notifications:NotificationEntities[],totalPages: number }> {
+  ): Promise<{ notifications: NotificationEntities[]; totalPages: number }> {
     try {
-      return await this.notificationRepository.findNotifications(
+      return await this._notificationRepository.findNotifications(
         userId,
         page,
         status,

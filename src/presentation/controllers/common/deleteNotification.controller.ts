@@ -3,12 +3,12 @@ import { IdeleteNotificationUseCase } from "../../../application/interface/commo
 import HttpStatusCode from "@buxlo/common/build/common/httpStatusCode";
 
 export class DeleteNotificationController {
-  constructor(private deleteNotificationUseCase: IdeleteNotificationUseCase) {}
+  constructor(private _deleteNotificationUseCase: IdeleteNotificationUseCase) {}
   delete = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { ids } = req.body;
 
-      const response = await this.deleteNotificationUseCase.execute(ids);
+      const response = await this._deleteNotificationUseCase.execute(ids);
       res.status(HttpStatusCode.OK).json({ response });
     } catch (error) {
       next(error);

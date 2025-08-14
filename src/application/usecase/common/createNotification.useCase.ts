@@ -4,10 +4,10 @@ import { IcreateNotificationUseCase } from "../../interface/common/IcreateNotifi
 import { BadRequest } from "@buxlo/common";
 
 export class CreateNotificationUseCase implements IcreateNotificationUseCase {
-  constructor(private notificationRepo: InotificationRepository) {}
+  constructor(private _notificationRepo: InotificationRepository) {}
   async execute(data: NotificationEntities): Promise<NotificationEntities> {
     try {
-      return await this.notificationRepo.create(data);
+      return await this._notificationRepo.create(data);
     } catch (error) {
       console.error("Error in CreateNotificationUseCase:", error);
       throw new BadRequest("Failed to create notification");

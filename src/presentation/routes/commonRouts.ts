@@ -11,60 +11,60 @@ import { deleteNotificationsDto } from "../../zodSchemaDto/common/deleteNotifica
 import { DeleteNotificationController } from "../controllers/common/deleteNotification.controller";
 
 export class CommonRouts {
-  private router: Router;
-  private diContainer: DIContainer;
+  private _router: Router;
+  private _diContainer: DIContainer;
 
-  private fetchNotificationsController!: FetchNotificationsController;
-  private createNotificationController!: CreateNotificationController;
-  private readNotificationController!: ReadNotificationController;
-  private deleteNotificationControler!: DeleteNotificationController;
+  private _fetchNotificationsController!: FetchNotificationsController;
+  private _createNotificationController!: CreateNotificationController;
+  private _readNotificationController!: ReadNotificationController;
+  private _deleteNotificationControler!: DeleteNotificationController;
 
   constructor() {
-    this.router = Router();
-    this.diContainer = new DIContainer();
-    this.initializeControllers();
-    this.initializeRoutes();
+    this._router = Router();
+    this._diContainer = new DIContainer();
+    this._initializeControllers();
+    this._initializeRoutes();
   }
 
-  private initializeControllers(): void {
-    this.fetchNotificationsController = new FetchNotificationsController(
-      this.diContainer.fetchNotificationsUseCase()
+  private _initializeControllers(): void {
+    this._fetchNotificationsController = new FetchNotificationsController(
+      this._diContainer.fetchNotificationsUseCase()
     );
-    this.createNotificationController = new CreateNotificationController(
-      this.diContainer.createNotificationUseCase()
+    this._createNotificationController = new CreateNotificationController(
+      this._diContainer.createNotificationUseCase()
     );
-    this.readNotificationController = new ReadNotificationController(
-      this.diContainer.readNotificationUseCase()
+    this._readNotificationController = new ReadNotificationController(
+      this._diContainer.readNotificationUseCase()
     );
-    this.deleteNotificationControler = new DeleteNotificationController(
-      this.diContainer.deleteNotificationUseCase()
+    this._deleteNotificationControler = new DeleteNotificationController(
+      this._diContainer.deleteNotificationUseCase()
     );
   }
 
-  private initializeRoutes(): void {
-    this.router.post(
+  private _initializeRoutes(): void {
+    this._router.post(
       "/createnotification",
       validateReqBody(createNotificationDto),
-      this.createNotificationController.create
+      this._createNotificationController.create
     );
-    this.router.get(
+    this._router.get(
       "/fetchnotifications",
       validateReqQueryParams(fetchNotificationsDto),
-      this.fetchNotificationsController.get
+      this._fetchNotificationsController.get
     );
-    this.router.patch(
+    this._router.patch(
       "/readnotifications",
       validateReqBody(readnotificationsDto),
-      this.readNotificationController.read
+      this._readNotificationController.read
     );
-    this.router.delete(
+    this._router.delete(
       "/deletenotifications",
       validateReqBody(deleteNotificationsDto),
-      this.deleteNotificationControler.delete
+      this._deleteNotificationControler.delete
     );
   }
 
   public getRouter(): Router {
-    return this.router;
+    return this._router;
   }
 }

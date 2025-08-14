@@ -4,7 +4,7 @@ import { NotificationRepository } from "../../../infrastructure/repositories/not
 import { IreadNotificationUseCase } from "../../interface/common/IreadNotificationUseCase";
 
 export class ReadNotificationUseCase implements IreadNotificationUseCase {
-  constructor(private notificationRepo: NotificationRepository) {}
+  constructor(private _notificationRepo: NotificationRepository) {}
 
   async execute(
     updates: { id: string; status: "read" | "unread" }[]
@@ -12,7 +12,7 @@ export class ReadNotificationUseCase implements IreadNotificationUseCase {
     try {
       const results = await Promise.all(
         updates.map(({ id, status }) =>
-          this.notificationRepo.update(id, { status })
+          this._notificationRepo.update(id, { status })
         )
       );
 

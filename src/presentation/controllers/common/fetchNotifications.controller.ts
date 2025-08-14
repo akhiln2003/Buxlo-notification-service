@@ -3,7 +3,7 @@ import { IfetchNotificationsUseCase } from "../../../application/interface/commo
 import HttpStatusCode from "@buxlo/common/build/common/httpStatusCode";
 
 export class FetchNotificationsController {
-  constructor(private fetchNotificationsUseCase: IfetchNotificationsUseCase) {}
+  constructor(private _fetchNotificationsUseCase: IfetchNotificationsUseCase) {}
   get = async (
     req: Request,
     res: Response,
@@ -13,7 +13,7 @@ export class FetchNotificationsController {
       const { userId, page, status, searchData } = req.query;
 
       const { notifications, totalPages } =
-        await this.fetchNotificationsUseCase.execute(
+        await this._fetchNotificationsUseCase.execute(
           userId as string,
           Number(page),
           status as "all" | "unread",

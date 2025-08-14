@@ -3,11 +3,11 @@ import { IcreateNotificationUseCase } from "../../../application/interface/commo
 import HttpStatusCode from "@buxlo/common/build/common/httpStatusCode";
 
 export class CreateNotificationController {
-  constructor(private createNotificationUseCase: IcreateNotificationUseCase) {}
+  constructor(private _createNotificationUseCase: IcreateNotificationUseCase) {}
   create = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { data } = req.body;
-      const notification = await this.createNotificationUseCase.execute(data);
+      const notification = await this._createNotificationUseCase.execute(data);
 
       res.status(HttpStatusCode.OK).json({ notification });
     } catch (error) {
