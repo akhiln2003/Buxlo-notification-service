@@ -3,12 +3,17 @@ import { NotificationEntities } from "../../domain/entities/notification";
 import { InotificationRepository } from "../@types/InotificationRepository";
 import { NotificationSchema } from "../database/mongodb/schema/notification.schema";
 import { BadRequest } from "@buxlo/common";
+import {
+  NotificationMapper,
+  NotificationResponseDto,
+} from "../../zodSchemaDto/output/notificationResponse.dto";
 
 export class NotificationRepository implements InotificationRepository {
-  async create(data: NotificationEntities): Promise<NotificationEntities> {
+  async create(data: NotificationEntities): Promise<NotificationResponseDto> {
     try {
-      const newUser = NotificationSchema.build(data);
-      return await newUser.save();
+      const notification = NotificationSchema.build(data);
+      const newNotification = await notification.save();
+      return NotificationMapper.toDto(newNotification);
     } catch (error: any) {
       //   customLogger.error(`db error: ${error.message }`);
       throw new Error(`db error: ${error.message}`);
@@ -20,7 +25,7 @@ export class NotificationRepository implements InotificationRepository {
     page: number,
     status: "all" | "unread",
     searchData?: string
-  ): Promise<{notifications:NotificationEntities[],totalPages: number }> {
+  ): Promise<{ notifications: NotificationResponseDto[]; totalPages: number }> {
     try {
       const limit = 5;
       const skip = (page - 1) * limit;
@@ -31,7 +36,7 @@ export class NotificationRepository implements InotificationRepository {
       }
 
       const searchableTypes = [
-        "info",
+        "update",
         "warning",
         "error",
         "success",
@@ -41,35 +46,36 @@ export class NotificationRepository implements InotificationRepository {
       if (searchData) {
         const lowerSearch = searchData.toLowerCase();
 
-        // If search term matches any type prefix
         if (searchableTypes.some((type) => lowerSearch.startsWith(type))) {
           query.type = new RegExp(`^${lowerSearch}`, "i");
         } else {
-          // Otherwise search in title or message
-          query.$or = [
-            { title: new RegExp(lowerSearch, "i") },
-            { message: new RegExp(lowerSearch, "i") },
-          ];
+          query.message = new RegExp(lowerSearch, "i");
         }
       }
+
       const totalCount = await NotificationSchema.countDocuments(query);
       const totalPages = Math.ceil(totalCount / limit);
+
       const notifications = await NotificationSchema.find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
 
-      return { notifications, totalPages };
+      const dtoNotifications = notifications.map((n) =>
+        NotificationMapper.toDto(n)
+      );
+
+      return { notifications: dtoNotifications, totalPages };
     } catch (error: any) {
       throw new Error(`db error (findNotifications): ${error.message}`);
     }
   }
 
-  async delete(id: string): Promise<NotificationEntities | null> {
+  async delete(id: string): Promise<NotificationResponseDto> {
     try {
       const deletedNotification =
         await NotificationSchema.findByIdAndDelete(id);
-      return deletedNotification;
+      return NotificationMapper.toDto(deletedNotification);
     } catch (error) {
       console.error(`Error deleting notification with id ${id}:`, error);
 
@@ -80,7 +86,7 @@ export class NotificationRepository implements InotificationRepository {
   async update(
     id: string,
     updateData: UpdateQuery<NotificationEntities>
-  ): Promise<NotificationEntities> {
+  ): Promise<NotificationResponseDto> {
     try {
       const updatedval = await NotificationSchema.findByIdAndUpdate(
         id,
@@ -91,7 +97,7 @@ export class NotificationRepository implements InotificationRepository {
       if (!updatedval) {
         throw new BadRequest("Notification not found or update failed");
       }
-      return updatedval;
+      return NotificationMapper.toDto(updatedval);
     } catch (error: any) {
       throw new Error(`db error (updateNotification): ${error.message}`);
     }

@@ -1,7 +1,7 @@
 import { BadRequest } from "@buxlo/common";
-import { NotificationEntities } from "../../../domain/entities/notification";
 import { InotificationRepository } from "../../../infrastructure/@types/InotificationRepository";
 import { IfetchNotificationsUseCase } from "../../interface/common/IfetchNotificationsUseCase";
+import { NotificationResponseDto } from "../../../zodSchemaDto/output/notificationResponse.dto";
 
 export class FetchNotificationsUseCase implements IfetchNotificationsUseCase {
   constructor(private _notificationRepository: InotificationRepository) {}
@@ -10,7 +10,7 @@ export class FetchNotificationsUseCase implements IfetchNotificationsUseCase {
     page: number,
     status: "unread" | "all",
     searchData?: string
-  ): Promise<{ notifications: NotificationEntities[]; totalPages: number }> {
+  ): Promise<{ notifications: NotificationResponseDto[]; totalPages: number }> {
     try {
       return await this._notificationRepository.findNotifications(
         userId,

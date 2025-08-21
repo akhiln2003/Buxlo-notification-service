@@ -1,4 +1,4 @@
-import { NotificationEntities } from "../../../domain/entities/notification";
+import { NotificationResponseDto } from "../../../zodSchemaDto/output/notificationResponse.dto";
 
 export interface IfetchNotificationsUseCase {
   execute(
@@ -6,5 +6,5 @@ export interface IfetchNotificationsUseCase {
     page: number,
     status: "unread" | "all",
     searchData?: string 
-  ): Promise<{notifications:NotificationEntities[],totalPages: number }>;
+  ): Promise<{notifications:NotificationResponseDto[],totalPages: number }>;
 }

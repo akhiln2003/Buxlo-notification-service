@@ -1,14 +1,14 @@
 import { BadRequest } from "@buxlo/common";
-import { NotificationEntities } from "../../../domain/entities/notification";
 import { NotificationRepository } from "../../../infrastructure/repositories/notification.Repository";
 import { IreadNotificationUseCase } from "../../interface/common/IreadNotificationUseCase";
+import { NotificationResponseDto } from "../../../zodSchemaDto/output/notificationResponse.dto";
 
 export class ReadNotificationUseCase implements IreadNotificationUseCase {
   constructor(private _notificationRepo: NotificationRepository) {}
 
   async execute(
     updates: { id: string; status: "read" | "unread" }[]
-  ): Promise<NotificationEntities[] | []> {
+  ): Promise<NotificationResponseDto[] | []> {
     try {
       const results = await Promise.all(
         updates.map(({ id, status }) =>
