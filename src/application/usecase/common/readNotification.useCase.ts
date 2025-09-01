@@ -1,7 +1,10 @@
 import { BadRequest } from "@buxlo/common";
 import { NotificationRepository } from "../../../infrastructure/repositories/notification.Repository";
 import { IreadNotificationUseCase } from "../../interface/common/IreadNotificationUseCase";
-import { NotificationResponseDto } from "../../../zodSchemaDto/output/notificationResponse.dto";
+import {
+  NotificationMapper,
+  NotificationResponseDto,
+} from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
 
 export class ReadNotificationUseCase implements IreadNotificationUseCase {
   constructor(private _notificationRepo: NotificationRepository) {}
@@ -16,7 +19,7 @@ export class ReadNotificationUseCase implements IreadNotificationUseCase {
         )
       );
 
-      return results;
+      return results.map(NotificationMapper.toDto);
     } catch (error) {
       console.error("Error reading notifications:", error);
       throw new BadRequest("Failed to process notification updates.");

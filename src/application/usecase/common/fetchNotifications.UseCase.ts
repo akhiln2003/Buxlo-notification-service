@@ -1,7 +1,7 @@
 import { BadRequest } from "@buxlo/common";
 import { InotificationRepository } from "../../../infrastructure/@types/InotificationRepository";
 import { IfetchNotificationsUseCase } from "../../interface/common/IfetchNotificationsUseCase";
-import { NotificationResponseDto } from "../../../zodSchemaDto/output/notificationResponse.dto";
+import { NotificationMapper, NotificationResponseDto } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
 
 export class FetchNotificationsUseCase implements IfetchNotificationsUseCase {
   constructor(private _notificationRepository: InotificationRepository) {}
@@ -12,12 +12,17 @@ export class FetchNotificationsUseCase implements IfetchNotificationsUseCase {
     searchData?: string
   ): Promise<{ notifications: NotificationResponseDto[]; totalPages: number }> {
     try {
-      return await this._notificationRepository.findNotifications(
+      const data = await this._notificationRepository.findNotifications(
         userId,
         page,
         status,
         searchData
       );
+
+      return {
+        notifications: data.notifications.map(NotificationMapper.toDto),
+        totalPages: data.totalPages,
+      };
     } catch (error) {
       console.error("Error in FetchNotificationsUseCase:", error);
       throw new BadRequest("Failed to fetch notifications");

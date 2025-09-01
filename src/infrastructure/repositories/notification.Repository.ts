@@ -3,17 +3,13 @@ import { NotificationEntities } from "../../domain/entities/notification";
 import { InotificationRepository } from "../@types/InotificationRepository";
 import { NotificationSchema } from "../database/mongodb/schema/notification.schema";
 import { BadRequest } from "@buxlo/common";
-import {
-  NotificationMapper,
-  NotificationResponseDto,
-} from "../../zodSchemaDto/output/notificationResponse.dto";
 
 export class NotificationRepository implements InotificationRepository {
-  async create(data: NotificationEntities): Promise<NotificationResponseDto> {
+  async create(data: NotificationEntities): Promise<NotificationEntities> {
     try {
       const notification = NotificationSchema.build(data);
       const newNotification = await notification.save();
-      return NotificationMapper.toDto(newNotification);
+      return newNotification;
     } catch (error: any) {
       //   customLogger.error(`db error: ${error.message }`);
       throw new Error(`db error: ${error.message}`);
@@ -25,7 +21,7 @@ export class NotificationRepository implements InotificationRepository {
     page: number,
     status: "all" | "unread",
     searchData?: string
-  ): Promise<{ notifications: NotificationResponseDto[]; totalPages: number }> {
+  ): Promise<{ notifications: NotificationEntities[]; totalPages: number }> {
     try {
       const limit = 5;
       const skip = (page - 1) * limit;
@@ -61,21 +57,20 @@ export class NotificationRepository implements InotificationRepository {
         .skip(skip)
         .limit(limit);
 
-      const dtoNotifications = notifications.map((n) =>
-        NotificationMapper.toDto(n)
-      );
-
-      return { notifications: dtoNotifications, totalPages };
+      return { notifications, totalPages };
     } catch (error: any) {
       throw new Error(`db error (findNotifications): ${error.message}`);
     }
   }
 
-  async delete(id: string): Promise<NotificationResponseDto> {
+  async delete(id: string): Promise<NotificationEntities> {
     try {
       const deletedNotification =
         await NotificationSchema.findByIdAndDelete(id);
-      return NotificationMapper.toDto(deletedNotification);
+
+      if (!deletedNotification)
+        throw new BadRequest("Faild to delete notification");
+      return deletedNotification;
     } catch (error) {
       console.error(`Error deleting notification with id ${id}:`, error);
 
@@ -86,7 +81,7 @@ export class NotificationRepository implements InotificationRepository {
   async update(
     id: string,
     updateData: UpdateQuery<NotificationEntities>
-  ): Promise<NotificationResponseDto> {
+  ): Promise<NotificationEntities> {
     try {
       const updatedval = await NotificationSchema.findByIdAndUpdate(
         id,
@@ -97,7 +92,7 @@ export class NotificationRepository implements InotificationRepository {
       if (!updatedval) {
         throw new BadRequest("Notification not found or update failed");
       }
-      return NotificationMapper.toDto(updatedval);
+      return updatedval;
     } catch (error: any) {
       throw new Error(`db error (updateNotification): ${error.message}`);
     }

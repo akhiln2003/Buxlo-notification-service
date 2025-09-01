@@ -5,10 +5,10 @@ import { validateReqBody, validateReqQueryParams } from "@buxlo/common";
 import { CreateNotificationController } from "../controllers/common/createNotification.controller";
 import { ReadNotificationController } from "../controllers/common/readNotification.controller";
 import { DeleteNotificationController } from "../controllers/common/deleteNotification.controller";
-import { createNotificationDto } from "../../zodSchemaDto/input/common/createnotification.dto";
-import { fetchNotificationsDto } from "../../zodSchemaDto/input/common/fetchnotifications.dto";
-import { readnotificationsDto } from "../../zodSchemaDto/input/common/readnotifications.dto";
-import { deleteNotificationsDto } from "../../zodSchemaDto/input/common/deleteNotification.dto.";
+import { createNotificationDto } from "../../domain/zodSchemaDto/input/common/createnotification.dto";
+import { fetchNotificationsDto } from "../../domain/zodSchemaDto/input/common/fetchnotifications.dto";
+import { readnotificationsDto } from "../../domain/zodSchemaDto/input/common/readnotifications.dto";
+import { deleteNotificationsDto } from "../../domain/zodSchemaDto/input/common/deleteNotification.dto";
 
 export class CommonRouts {
   private _router: Router;
