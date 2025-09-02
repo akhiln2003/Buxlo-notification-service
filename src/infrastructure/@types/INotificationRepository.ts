@@ -1,7 +1,7 @@
 import { UpdateQuery } from "mongoose";
 import { NotificationEntities } from "../../domain/entities/notification";
 
-export interface InotificationRepository {
+export interface INotificationRepository {
   create(data: NotificationEntities): Promise<NotificationEntities>;
   findNotifications(
     userId: string,

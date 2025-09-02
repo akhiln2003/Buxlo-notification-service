@@ -3,12 +3,12 @@ import {
   NotificationMapper,
   NotificationResponseDto,
 } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
-import { InotificationRepository } from "../../../infrastructure/@types/InotificationRepository";
-import { IcreateNotificationUseCase } from "../../interface/common/IcreateNotificationUseCase";
+import { INotificationRepository } from "../../../infrastructure/@types/INotificationRepository";
+import { ICreateNotificationUseCase } from "../../interface/common/ICreateNotificationUseCase";
 import { BadRequest } from "@buxlo/common";
 
-export class CreateNotificationUseCase implements IcreateNotificationUseCase {
-  constructor(private _notificationRepo: InotificationRepository) {}
+export class CreateNotificationUseCase implements ICreateNotificationUseCase {
+  constructor(private _notificationRepo: INotificationRepository) {}
   async execute(data: NotificationEntities): Promise<NotificationResponseDto> {
     try {
       const newData = await this._notificationRepo.create(data);

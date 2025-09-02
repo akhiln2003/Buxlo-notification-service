@@ -1,12 +1,12 @@
 import { BadRequest } from "@buxlo/common";
 import { NotificationRepository } from "../../../infrastructure/repositories/notification.Repository";
-import { IreadNotificationUseCase } from "../../interface/common/IreadNotificationUseCase";
+import { IReadNotificationUseCase } from "../../interface/common/IReadNotificationUseCase";
 import {
   NotificationMapper,
   NotificationResponseDto,
 } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
 
-export class ReadNotificationUseCase implements IreadNotificationUseCase {
+export class ReadNotificationUseCase implements IReadNotificationUseCase {
   constructor(private _notificationRepo: NotificationRepository) {}
 
   async execute(

@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { IfetchNotificationsUseCase } from "../../../application/interface/common/IfetchNotificationsUseCase";
+import { IFetchNotificationsUseCase } from "../../../application/interface/common/IFetchNotificationsUseCase";
 import HttpStatusCode from "@buxlo/common/build/common/httpStatusCode";
 
 export class FetchNotificationsController {
-  constructor(private _fetchNotificationsUseCase: IfetchNotificationsUseCase) {}
+  constructor(private _fetchNotificationsUseCase: IFetchNotificationsUseCase) {}
   get = async (
     req: Request,
     res: Response,

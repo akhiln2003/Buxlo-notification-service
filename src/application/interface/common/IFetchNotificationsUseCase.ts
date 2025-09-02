@@ -1,6 +1,6 @@
-import { NotificationResponseDto } from "../../../zodSchemaDto/output/notificationResponse.dto";
+import { NotificationResponseDto } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
 
-export interface IfetchNotificationsUseCase {
+export interface IFetchNotificationsUseCase {
   execute(
     userId: string,
     page: number,

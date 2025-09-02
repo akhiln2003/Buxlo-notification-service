@@ -1,9 +1,9 @@
 import HttpStatusCode from "@buxlo/common/build/common/httpStatusCode";
 import { NextFunction, Request, Response } from "express";
-import { IreadNotificationUseCase } from "../../../application/interface/common/IreadNotificationUseCase";
+import { IReadNotificationUseCase } from "../../../application/interface/common/IReadNotificationUseCase";
 
 export class ReadNotificationController {
-  constructor(private _readNotificationUseCase: IreadNotificationUseCase) {}
+  constructor(private _readNotificationUseCase: IReadNotificationUseCase) {}
 
   read = async (req: Request, res: Response, next: NextFunction) => {
     try {

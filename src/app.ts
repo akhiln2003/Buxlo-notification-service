@@ -1,5 +1,5 @@
 import { errorHandler } from "@buxlo/common";
-import { Iserver } from "./domain/interfaces/Iserver";
+import { IServer } from "./domain/interfaces/IServer";
 import {
   connectDB,
   disconnectDB,
@@ -8,7 +8,7 @@ import loggerMiddleware from "./presentation/middlewares/loggerMiddleware";
 import { CommonRouts } from "./presentation/routes/commonRouts";
 
 export class App {
-  constructor(private _server: Iserver) {}
+  constructor(private _server: IServer) {}
 
   async initialize(): Promise<void> {
     await this._connectDB();

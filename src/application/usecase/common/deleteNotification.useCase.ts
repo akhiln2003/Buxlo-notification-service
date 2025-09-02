@@ -1,9 +1,9 @@
 import { BadRequest } from "@buxlo/common";
-import { IdeleteNotificationUseCase } from "../../interface/common/IdeleteNotificationUseCase";
-import { InotificationRepository } from "../../../infrastructure/@types/InotificationRepository";
+import { IDeleteNotificationUseCase } from "../../interface/common/IDeleteNotificationUseCase";
+import { INotificationRepository } from "../../../infrastructure/@types/INotificationRepository";
 
-export class DeleteNotificationUseCase implements IdeleteNotificationUseCase {
-  constructor(private _notificationRepo: InotificationRepository) {}
+export class DeleteNotificationUseCase implements IDeleteNotificationUseCase {
+  constructor(private _notificationRepo: INotificationRepository) {}
   async execute(ids: string[]): Promise<string> {
     try {
         await Promise.all(

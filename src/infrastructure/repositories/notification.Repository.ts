@@ -1,10 +1,10 @@
 import { UpdateQuery } from "mongoose";
 import { NotificationEntities } from "../../domain/entities/notification";
-import { InotificationRepository } from "../@types/InotificationRepository";
+import { INotificationRepository } from "../@types/INotificationRepository";
 import { NotificationSchema } from "../database/mongodb/schema/notification.schema";
 import { BadRequest } from "@buxlo/common";
 
-export class NotificationRepository implements InotificationRepository {
+export class NotificationRepository implements INotificationRepository {
   async create(data: NotificationEntities): Promise<NotificationEntities> {
     try {
       const notification = NotificationSchema.build(data);

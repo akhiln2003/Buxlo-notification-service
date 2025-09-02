@@ -1,6 +1,6 @@
 import { NotificationEntities } from "../../../domain/entities/notification";
-import { NotificationResponseDto } from "../../../zodSchemaDto/output/notificationResponse.dto";
+import { NotificationResponseDto } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
 
-export interface IcreateNotificationUseCase {
+export interface ICreateNotificationUseCase {
   execute(data: NotificationEntities): Promise<NotificationResponseDto>;
 }

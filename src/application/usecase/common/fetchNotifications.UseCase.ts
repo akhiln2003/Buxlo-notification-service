@@ -1,10 +1,10 @@
 import { BadRequest } from "@buxlo/common";
-import { InotificationRepository } from "../../../infrastructure/@types/InotificationRepository";
-import { IfetchNotificationsUseCase } from "../../interface/common/IfetchNotificationsUseCase";
+import { INotificationRepository } from "../../../infrastructure/@types/INotificationRepository";
+import { IFetchNotificationsUseCase } from "../../interface/common/IFetchNotificationsUseCase";
 import { NotificationMapper, NotificationResponseDto } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
 
-export class FetchNotificationsUseCase implements IfetchNotificationsUseCase {
-  constructor(private _notificationRepository: InotificationRepository) {}
+export class FetchNotificationsUseCase implements IFetchNotificationsUseCase {
+  constructor(private _notificationRepository: INotificationRepository) {}
   async execute(
     userId: string,
     page: number,
