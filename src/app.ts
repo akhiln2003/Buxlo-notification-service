@@ -5,7 +5,7 @@ import {
   disconnectDB,
 } from "./infrastructure/database/mongodb/connection";
 import loggerMiddleware from "./presentation/middlewares/loggerMiddleware";
-import { CommonRouts } from "./presentation/routes/commonRouts";
+import { CommonRouts } from "./presentation/routes/common.routes";
 
 export class App {
   constructor(private _server: IServer) {}
