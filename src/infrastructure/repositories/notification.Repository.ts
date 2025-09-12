@@ -1,4 +1,4 @@
-import { UpdateQuery } from "mongoose";
+import { FilterQuery, UpdateQuery } from "mongoose";
 import { NotificationEntities } from "../../domain/entities/notification";
 import { INotificationRepository } from "../@types/INotificationRepository";
 import { NotificationSchema } from "../database/mongodb/schema/notification.schema";
@@ -25,7 +25,7 @@ export class NotificationRepository implements INotificationRepository {
     try {
       const limit = 5;
       const skip = (page - 1) * limit;
-      const query: any = { recipient: userId };
+      const query: FilterQuery<NotificationEntities> = { recipient: userId };
 
       if (status === "unread") {
         query.status = "unread";
