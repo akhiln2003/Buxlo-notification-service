@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { NotificationResponseDto } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
+import { NotificationResponseDto } from "../../dto/notificationResponse.dto";
 
 export interface ICreateNotificationUseCaseProps {
   recipient: mongoose.Types.ObjectId;

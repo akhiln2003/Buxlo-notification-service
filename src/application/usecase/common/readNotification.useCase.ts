@@ -4,7 +4,7 @@ import { IReadNotificationUseCase } from "../../interface/common/IReadNotificati
 import {
   NotificationMapper,
   NotificationResponseDto,
-} from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
+} from "../../dto/notificationResponse.dto";
 
 export class ReadNotificationUseCase implements IReadNotificationUseCase {
   constructor(private _notificationRepo: NotificationRepository) {}

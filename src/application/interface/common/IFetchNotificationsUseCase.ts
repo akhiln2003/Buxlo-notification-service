@@ -1,4 +1,4 @@
-import { NotificationResponseDto } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
+import { NotificationResponseDto } from "../../dto/notificationResponse.dto";
 
 export interface IFetchNotificationsUseCase {
   execute(

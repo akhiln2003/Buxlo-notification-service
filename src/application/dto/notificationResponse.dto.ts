@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { NotificationEntities } from "../../entities/notification";
+import { NotificationEntities } from "../../domain/entities/notification";
 
 export const NotificationResponseDto = z.object({
   id: z.string(),

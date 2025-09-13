@@ -1,7 +1,7 @@
 import {
   NotificationMapper,
   NotificationResponseDto,
-} from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
+} from "../../dto/notificationResponse.dto";
 import { INotificationRepository } from "../../../infrastructure/@types/INotificationRepository";
 import {
   ICreateNotificationUseCase,

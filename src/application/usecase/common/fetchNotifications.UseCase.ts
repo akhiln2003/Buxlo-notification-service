@@ -1,7 +1,7 @@
 import { BadRequest } from "@buxlo/common";
 import { INotificationRepository } from "../../../infrastructure/@types/INotificationRepository";
 import { IFetchNotificationsUseCase } from "../../interface/common/IFetchNotificationsUseCase";
-import { NotificationMapper, NotificationResponseDto } from "../../../domain/zodSchemaDto/output/notificationResponse.dto";
+import { NotificationMapper, NotificationResponseDto } from "../../dto/notificationResponse.dto";
 
 export class FetchNotificationsUseCase implements IFetchNotificationsUseCase {
   constructor(private _notificationRepository: INotificationRepository) {}
