@@ -1,13 +1,13 @@
 import { BadRequest } from "@buxlo/common";
-import { NotificationRepository } from "../../../infrastructure/repositories/notification.Repository";
 import { IReadNotificationUseCase } from "../../interface/common/IReadNotificationUseCase";
 import {
   NotificationMapper,
   NotificationResponseDto,
 } from "../../dto/notificationResponse.dto";
+import { INotificationRepository } from "../../../infrastructure/@types/INotificationRepository";
 
 export class ReadNotificationUseCase implements IReadNotificationUseCase {
-  constructor(private _notificationRepo: NotificationRepository) {}
+  constructor(private _notificationRepo: INotificationRepository) {}
 
   async execute(
     updates: { id: string; status: "read" | "unread" }[]
